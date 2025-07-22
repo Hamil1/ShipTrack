@@ -469,7 +469,19 @@ npm run type-check
 
 # Format code
 npm run format
+
+# Run tests (automatically runs before git push)
+npm test
 ```
+
+### Git Hooks
+
+The project uses Husky to ensure code quality:
+
+- **Pre-commit**: Runs tests before each commit
+- **Pre-push**: Runs tests before pushing to remote repository
+
+This ensures that broken code cannot be pushed to the repository.
 
 ## 🐛 Known Issues & Limitations
 
