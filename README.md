@@ -437,15 +437,11 @@ npm test -- trackingService
 
 Test the real carrier API integrations:
 
-# In another terminal, test carrier APIs
-
 ```bash
-npm run test:carriers
+npm test
 ```
 
-````
-
-This will test all carriers and show which ones are using real APIs vs mock data.
+This will run all tests including carrier API integration tests.
 
 ## 🔧 Development
 
@@ -460,7 +456,7 @@ npx prisma db push --force-reset
 
 # Generate migration
 npx prisma migrate dev --name <migration_name>
-````
+```
 
 ### Code Quality
 
@@ -492,10 +488,11 @@ npm run format
 
 - [ ] What are the statuses for the tracking number?
 - [ ] Do we need the JWT secret in the .env file?
-- [ ] Double check that these carriers are not in the app: 'DHL', 'Amazon', 'OnTrac' and remove any references to them in the app.
+- [x] Double check that these carriers are not in the app: 'DHL', 'Amazon', 'OnTrac' and remove any references to them in the app.
 - [ ] Are we specifying in the README that if we are not using docker we should hit the 3000 port and if we are using it we should hit the 3001 for the frontend?
 - [ ] Chec if we are using rate limit somewhere in the app and remove it.
 - [ ] Do we need a production database in the Docker Compose file?
 - [ ] Are the endpoints documentation in the README up to date?
 - [ ] Are we re-using components in the app by using the composition pattern?
 - [ ] Are the unit tests up to date?
+- [ ] Are we showing major carriers logos in the app?

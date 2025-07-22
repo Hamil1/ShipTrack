@@ -66,7 +66,7 @@ npm run dev
 docker compose --profile dev up --build
 
 # Test your carrier
-npm run test:carriers
+npm test
 ```
 
 ## 📋 Configuration Options
