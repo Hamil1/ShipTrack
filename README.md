@@ -74,33 +74,19 @@ npm install
 
 #### 3. Set Up Environment Variables
 
-Create a `.env` file in the root directory:
+Copy the example environment file and configure it for your setup:
 
-```env
-# For Local Development (without Docker)
-DATABASE_URL="postgresql://shiptrack:shiptrack_password@localhost:5432/shiptrack_dev"
-JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
-NEXTAUTH_SECRET="your-nextauth-secret"
-NEXTAUTH_URL="http://localhost:3000"
-
-# Carrier API Keys (Optional - for real tracking data)
-# Get free API access at: https://developer.fedex.com/, https://www.usps.com/business/web-tools-apis/, and https://www.ups.com/developers
-FEDEX_CLIENT_ID="your-fedex-client-id"
-FEDEX_CLIENT_SECRET="your-fedex-client-secret"
-USPS_WEB_TOOLS_USER_ID="your-usps-web-tools-user-id"
-UPS_CLIENT_ID="your-ups-client-id"
-UPS_CLIENT_SECRET="your-ups-client-secret"
-
-# Note: USPS API has geographic restrictions and may not be available outside the US
-# If you encounter "address not eligible" errors, consider using FedEx or UPS APIs instead
-# See [USPS API Troubleshooting](./docs/USPS_API_TROUBLESHOOTING.md) for solutions
+```bash
+cp .env.example .env
 ```
 
-**Note**:
+Then edit the `.env` file with your specific values. See `.env.example` for all available environment variables and their descriptions.
+
+**Important Notes**:
 
 - If you're using Docker, the database URL will be automatically configured by the Docker Compose environment variables.
 - Carrier API keys are optional. The app will use mock data if APIs are not configured.
-- **USPS API**: Has geographic restrictions and may not be available outside the US. See [USPS API Troubleshooting](./docs/USPS_API_TROUBLESHOOTING.md) for solutions.
+- **USPS API**: Has geographic restrictions and may not be available outside the US.
 
 #### 4. Set Up Database
 
