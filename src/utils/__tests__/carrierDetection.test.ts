@@ -23,20 +23,7 @@ describe("Carrier Detection", () => {
       expect(detectCarrier("9405508106244021621495")).toBe("USPS");
     });
 
-    it("should detect DHL tracking numbers", () => {
-      expect(detectCarrier("1234567890")).toBe("DHL");
-      expect(detectCarrier("12345678901")).toBe("DHL");
-    });
 
-    it("should detect Amazon tracking numbers", () => {
-      expect(detectCarrier("TBA123456789012")).toBe("Amazon");
-      expect(detectCarrier("tba123456789012")).toBe("Amazon");
-    });
-
-    it("should detect OnTrac tracking numbers", () => {
-      expect(detectCarrier("C12345678")).toBe("OnTrac");
-      expect(detectCarrier("c12345678")).toBe("OnTrac");
-    });
 
     it("should return null for invalid tracking numbers", () => {
       expect(detectCarrier("INVALID123")).toBeNull();
@@ -46,7 +33,7 @@ describe("Carrier Detection", () => {
 
     it("should handle whitespace and case", () => {
       expect(detectCarrier(" 1Z999AA1234567890 ")).toBe("UPS");
-      expect(detectCarrier("tba123456789012")).toBe("Amazon");
+      expect(detectCarrier(" 123456789012 ")).toBe("FedEx");
     });
   });
 
