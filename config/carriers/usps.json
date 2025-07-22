@@ -1,0 +1,52 @@
+{
+  "name": "USPS",
+  "pattern": "^(9[0-9]{3})[0-9]{15,18}$",
+  "apiEndpoint": "http://production.shippingapis.com",
+  "authType": "none",
+  "rateLimit": {
+    "requestsPerMinute": 1000,
+    "requestsPerHour": 10000
+  },
+  "timeout": 15000,
+  "retries": 2,
+  "endpoints": {
+    "track": "/ShippingAPI.dll"
+  },
+  "mockData": {
+    "9400100000000000000000": {
+      "trackingNumber": "9400100000000000000000",
+      "carrier": "USPS",
+      "status": "Delivered",
+      "location": "Chicago, IL",
+      "description": "Package delivered to recipient",
+      "events": [
+        {
+          "status": "Delivered",
+          "location": "Chicago, IL",
+          "description": "Package delivered to recipient"
+        },
+        {
+          "status": "Out for Delivery",
+          "location": "Chicago, IL",
+          "description": "Package out for delivery"
+        },
+        {
+          "status": "Arrived at Post Office",
+          "location": "Chicago, IL",
+          "description": "Package arrived at local post office"
+        }
+      ]
+    }
+  },
+  "statusMapping": {
+    "delivered": "Delivered",
+    "out for delivery": "Out for Delivery",
+    "exception": "Exception",
+    "failed": "Exception",
+    "picked up": "In Transit",
+    "in transit": "In Transit",
+    "arrived": "In Transit",
+    "pending": "Pending",
+    "accepted": "Pending"
+  }
+}
