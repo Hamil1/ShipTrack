@@ -134,9 +134,7 @@ export default function TrackingForm({
           <div>• UPS (1Z...)</div>
           <div>• FedEx (12-14 digits)</div>
           <div>• USPS (9400...)</div>
-          <div>• DHL (10-11 digits)</div>
-          <div>• Amazon (TBA...)</div>
-          <div>• OnTrac (C...)</div>
+          
         </div>
       </div>
     </div>

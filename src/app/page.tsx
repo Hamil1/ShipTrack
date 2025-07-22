@@ -97,8 +97,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-gray-900 mb-4">ShipTrack</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Universal package tracking for all major carriers. Track your
-            shipments from UPS, FedEx, USPS, DHL, Amazon, and OnTrac with one
-            simple interface.
+            shipments from UPS, FedEx, and USPS with one simple interface.
           </p>
           {isPolling && (
             <div className="mt-4 p-3 bg-blue-50 rounded-lg inline-block">
@@ -148,7 +147,7 @@ export default function Home() {
             <>
               {/* Auth Prompt for non-authenticated users */}
               <AuthPrompt />
-              
+
               {/* Tracking Form */}
               <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
@@ -179,7 +178,9 @@ export default function Home() {
                       </svg>
                     </div>
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium text-red-800">Error</h3>
+                      <h3 className="text-sm font-medium text-red-800">
+                        Error
+                      </h3>
                       <div className="mt-2 text-sm text-red-700">
                         <p>{error}</p>
                       </div>
