@@ -45,10 +45,7 @@ export interface CarrierInfo {
 export type CarrierType =
   | "UPS"
   | "FedEx"
-  | "USPS"
-  | "DHL"
-  | "Amazon"
-  | "OnTrac";
+  | "USPS";
 
 export interface AuthResponse {
   user: User;
