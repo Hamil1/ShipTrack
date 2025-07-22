@@ -428,8 +428,6 @@ npm run test:watch
 npm run test:coverage
 ```
 
-The application includes comprehensive test coverage for critical functionality including carrier detection and API integration tests.
-
 ## 🔧 Development
 
 ### Database Management
