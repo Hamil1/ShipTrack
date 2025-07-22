@@ -177,48 +177,6 @@ docker compose --profile dev down
 docker compose --profile dev down --remove-orphans
 ```
 
-## 🚀 Deployment Options
-
-### Vercel Deployment (Recommended for Production)
-
-1. **Push your code to GitHub**
-2. **Connect your repository to Vercel**
-3. **Set environment variables in Vercel dashboard**
-4. **Deploy automatically on push**
-
-**Environment Variables for Vercel:**
-
-```env
-DATABASE_URL="postgresql://user:password@host:port/database"
-JWT_SECRET="your-production-jwt-secret"
-NEXTAUTH_SECRET="your-production-nextauth-secret"
-NEXTAUTH_URL="https://your-domain.com"
-
-# Carrier API Keys (Optional - for real tracking data)
-FEDEX_CLIENT_ID="your-production-fedex-client-id"
-FEDEX_CLIENT_SECRET="your-production-fedex-client-secret"
-USPS_WEB_TOOLS_USER_ID="your-production-usps-web-tools-user-id"
-UPS_CLIENT_ID="your-production-ups-client-id"
-UPS_CLIENT_SECRET="your-production-ups-client-secret"
-```
-
-**Note**:
-
-- For Vercel deployment, you'll need to set up a PostgreSQL database (e.g., using Vercel Postgres, Supabase, or any PostgreSQL provider).
-- Carrier API keys are optional. The app will use mock data if APIs are not configured.
-
-### Docker Deployment (For Other Platforms)
-
-#### AWS ECS/Fargate
-
-```bash
-# Build and push to ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin your-account.dkr.ecr.us-east-1.amazonaws.com
-docker build -t shiptrack .
-docker tag shiptrack:latest your-account.dkr.ecr.us-east-1.amazonaws.com/shiptrack:latest
-docker push your-account.dkr.ecr.us-east-1.amazonaws.com/shiptrack:latest
-```
-
 ## 📚 API Documentation
 
 ### Authentication Endpoints
@@ -516,36 +474,6 @@ npm run type-check
 # Format code
 npm run format
 ```
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Set environment variables in Vercel dashboard
-4. Deploy automatically on push
-
-### Environment Variables for Production
-
-```env
-DATABASE_URL="postgresql://user:password@host:port/database"
-JWT_SECRET="your-production-jwt-secret"
-NEXTAUTH_SECRET="your-production-nextauth-secret"
-NEXTAUTH_URL="https://your-domain.com"
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Adding New Carriers
-
-To add support for new carriers, see [Carrier Onboarding Guide](./docs/CARRIER_ONBOARDING_README.md) for detailed instructions.
 
 ## 🐛 Known Issues & Limitations
 
