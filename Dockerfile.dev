@@ -1,0 +1,25 @@
+# Development Dockerfile for Next.js application
+FROM node:18-alpine
+
+# Install dependencies
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm ci
+
+# Copy Prisma schema for client generation
+COPY prisma ./prisma
+
+# Generate Prisma client (will be regenerated when source is mounted)
+RUN npx prisma generate
+
+# Expose port
+EXPOSE 3000
+
+# Start development server with proper host binding
+CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"] 
