@@ -508,3 +508,4 @@ This ensures that broken code cannot be pushed to the repository.
 - [ ] Are we re-using components in the app by using the composition pattern?
 - [ ] Are the unit tests up to date?
 - [ ] Are we showing major carriers logos in the app?
+- [ ] Do we have the pipelining in the app to deploy to Vercel?
