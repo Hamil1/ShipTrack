@@ -62,7 +62,7 @@ This approach ensures that:
 #### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:Hamil1/ShipTrack.git
 cd ShipTrack
 ```
 
@@ -129,7 +129,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 #### 1. Clone and Navigate
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:Hamil1/ShipTrack.git
 cd ShipTrack
 ```
 
