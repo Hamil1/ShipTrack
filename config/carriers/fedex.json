@@ -1,0 +1,51 @@
+{
+  "name": "FedEx",
+  "pattern": "^[0-9]{12,14}$",
+  "apiEndpoint": "https://apis-sandbox.fedex.com",
+  "authType": "oauth",
+  "rateLimit": {
+    "requestsPerMinute": 100,
+    "requestsPerHour": 1000
+  },
+  "timeout": 10000,
+  "retries": 3,
+  "endpoints": {
+    "oauth": "/oauth/token",
+    "track": "/track/v1/trackingnumbers"
+  },
+  "mockData": {
+    "123456789012": {
+      "trackingNumber": "123456789012",
+      "carrier": "FedEx",
+      "status": "Out for Delivery",
+      "location": "Los Angeles, CA",
+      "description": "Package out for delivery",
+      "events": [
+        {
+          "status": "Out for Delivery",
+          "location": "Los Angeles, CA",
+          "description": "Package out for delivery"
+        },
+        {
+          "status": "At Local Facility",
+          "location": "Los Angeles, CA",
+          "description": "Package arrived at local FedEx facility"
+        },
+        {
+          "status": "In Transit",
+          "location": "Memphis, TN",
+          "description": "Package in transit"
+        }
+      ]
+    }
+  },
+  "statusMapping": {
+    "delivered": "Delivered",
+    "out for delivery": "Out for Delivery",
+    "exception": "Exception",
+    "failed": "Exception",
+    "picked up": "In Transit",
+    "in transit": "In Transit",
+    "pending": "Pending"
+  }
+}
