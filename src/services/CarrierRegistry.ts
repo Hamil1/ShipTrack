@@ -182,7 +182,7 @@ export class CarrierRegistryService implements CarrierRegistry {
    * Initialize mock providers for carriers without real APIs
    */
   private initializeMockProviders() {
-    const mockCarriers: CarrierType[] = ["DHL", "Amazon", "OnTrac"];
+    const mockCarriers: CarrierType[] = [];
 
     mockCarriers.forEach((carrier) => {
       const mockProvider = new MockCarrierProvider(
@@ -206,9 +206,7 @@ export class CarrierRegistryService implements CarrierRegistry {
       UPS: /^1Z[0-9A-Z]{15,16}$/i,
       FedEx: /^[0-9]{12,14}$/,
       USPS: /^(9[0-9]{3})[0-9]{15,18}$/,
-      DHL: /^[0-9]{10,11}$/,
-      Amazon: /^TBA[0-9]{12}$/i,
-      OnTrac: /^C[0-9]{8}$/i,
+      
       CanadaPost: /^[0-9]{16}$/,
       RoyalMail: /^[A-Z]{2}[0-9]{9}GB$/i,
     };
