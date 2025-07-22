@@ -415,33 +415,20 @@ ShipTrack/
 
 The application includes comprehensive test coverage for critical functionality:
 
-### Carrier Detection Tests
+### Running Tests
 
 ```bash
-npm test -- carrierDetection
-```
-
-### API Endpoint Tests
-
-```bash
-npm test -- api
-```
-
-### Tracking Service Tests
-
-```bash
-npm test -- trackingService
-```
-
-### Carrier API Integration Tests
-
-Test the real carrier API integrations:
-
-```bash
+# Run all tests
 npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
 ```
 
-This will run all tests including carrier API integration tests.
+The application includes comprehensive test coverage for critical functionality including carrier detection and API integration tests.
 
 ## 🔧 Development
 
