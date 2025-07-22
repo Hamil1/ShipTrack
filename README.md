@@ -93,13 +93,14 @@ UPS_CLIENT_SECRET="your-ups-client-secret"
 
 # Note: USPS API has geographic restrictions and may not be available outside the US
 # If you encounter "address not eligible" errors, consider using FedEx or UPS APIs instead
+# See [USPS API Troubleshooting](./docs/USPS_API_TROUBLESHOOTING.md) for solutions
 ```
 
 **Note**:
 
 - If you're using Docker, the database URL will be automatically configured by the Docker Compose environment variables.
 - Carrier API keys are optional. The app will use mock data if APIs are not configured.
-- **USPS API**: Has geographic restrictions and may not be available outside the US. See [USPS_API_TROUBLESHOOTING.md](./USPS_API_TROUBLESHOOTING.md) for solutions.
+- **USPS API**: Has geographic restrictions and may not be available outside the US. See [USPS API Troubleshooting](./docs/USPS_API_TROUBLESHOOTING.md) for solutions.
 
 #### 4. Set Up Database
 
@@ -152,8 +153,6 @@ docker compose --profile dev up --build
 Access the app at [http://localhost:3001](http://localhost:3001)
 Access the database at localhost:5433
 
-
-
 ## 🐳 Docker Commands
 
 ### Development
@@ -177,7 +176,6 @@ docker compose --profile dev down
 # Stop development environment and remove orphaned containers
 docker compose --profile dev down --remove-orphans
 ```
-
 
 ## 🚀 Deployment Options
 
@@ -220,7 +218,6 @@ docker build -t shiptrack .
 docker tag shiptrack:latest your-account.dkr.ecr.us-east-1.amazonaws.com/shiptrack:latest
 docker push your-account.dkr.ecr.us-east-1.amazonaws.com/shiptrack:latest
 ```
-
 
 ## 📚 API Documentation
 
@@ -482,8 +479,8 @@ npm test -- trackingService
 
 Test the real carrier API integrations:
 
-
 # In another terminal, test carrier APIs
+
 ```bash
 npm run test:carriers
 ```
@@ -545,6 +542,10 @@ NEXTAUTH_URL="https://your-domain.com"
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+### Adding New Carriers
+
+To add support for new carriers, see [Carrier Onboarding Guide](./docs/CARRIER_ONBOARDING_README.md) for detailed instructions.
 
 ## 🐛 Known Issues & Limitations
 
