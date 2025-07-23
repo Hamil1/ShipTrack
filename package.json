@@ -17,7 +17,7 @@
     "db:reset": "prisma db push --force-reset",
     "type-check": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "prepare": "if [ -d .git ]; then husky; fi"
+    "prepare": "husky"
   },
   "dependencies": {
     "@prisma/client": "6.12.0",
