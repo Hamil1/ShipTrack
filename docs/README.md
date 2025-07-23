@@ -12,6 +12,10 @@ Step-by-step instructions for adding new carrier integrations to ShipTrack.
 
 Comprehensive guide for resolving USPS API issues, including geographic restrictions and authentication problems.
 
+### [UPS API Setup Issue](./UPS_API_SETUP_ISSUE.md)
+
+Documentation of the UPS Developer Portal redirect issue that prevents real API integration, including workarounds and fallback solutions.
+
 ### [Tracking Statuses](./TRACKING_STATUSES.md)
 
 A list of all the tracking statuses that we support.
