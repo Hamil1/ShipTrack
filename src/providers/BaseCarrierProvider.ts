@@ -104,9 +104,19 @@ export abstract class BaseCarrierProvider implements CarrierProvider {
     options: RequestInit = {}
   ): Promise<Response> {
     const url = `${this.config.apiEndpoint}${endpoint}`;
+    let extraHeaders: Record<string, string> = {};
+    if (options.headers) {
+      if (options.headers instanceof Headers) {
+        options.headers.forEach((value, key) => {
+          extraHeaders[key] = value;
+        });
+      } else {
+        extraHeaders = options.headers as Record<string, string>;
+      }
+    }
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      ...options.headers,
+      ...extraHeaders,
     };
 
     // Add authentication headers

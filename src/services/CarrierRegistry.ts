@@ -3,6 +3,7 @@ import {
   CarrierType,
   CarrierProvider,
   TrackingEvent,
+  TrackingInfo,
 } from "@/types/carrier";
 import { FedExProvider } from "@/providers/FedExProvider";
 import { USPSProvider } from "@/providers/USPSProvider";
@@ -273,9 +274,6 @@ export class CarrierRegistryService implements CarrierRegistry {
       UPS: /^1Z[0-9A-Z]{15,16}$/i,
       FedEx: /^[0-9]{12,14}$/,
       USPS: /^(9[0-9]{3})[0-9]{15,18}$/,
-
-      CanadaPost: /^[0-9]{16}$/,
-      RoyalMail: /^[A-Z]{2}[0-9]{9}GB$/i,
     };
 
     return patterns[carrier] || /^[0-9]+$/;
