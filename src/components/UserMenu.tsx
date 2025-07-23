@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 
-interface User {
-  id: string;
+// Minimal user type for menu display
+export type MinimalUser = {
+  id: number;
   name: string;
   email: string;
-}
+};
 
 interface UserMenuProps {
-  user: User;
+  user: MinimalUser;
   onLogout: () => void;
 }
 
