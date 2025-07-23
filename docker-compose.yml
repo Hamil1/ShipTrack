@@ -1,80 +1,55 @@
 services:
-  # Production database (PostgreSQL)
-  shiptrack-db-prod:
-    image: postgres:15-alpine
-    container_name: shiptrack-db-prod
-    environment:
-      POSTGRES_DB: shiptrack_prod
-      POSTGRES_USER: shiptrack
-      POSTGRES_PASSWORD: shiptrack_password
-    volumes:
-      - postgres_prod_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-    profiles:
-      - prod
-
   # Development database (PostgreSQL)
-  shiptrack-db-dev:
+  shiptrack-db:
     image: postgres:15-alpine
-    container_name: shiptrack-db-dev
+    container_name: shiptrack-db
     environment:
       POSTGRES_DB: shiptrack_dev
       POSTGRES_USER: shiptrack
       POSTGRES_PASSWORD: shiptrack_password
     volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
     restart: unless-stopped
-    profiles:
-      - dev
 
-  # Production application
-  shiptrack-app-prod:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: shipTrack-app-prod
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://shiptrack:shiptrack_password@shiptrack-db-prod:5432/shiptrack_prod
-      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-      - NEXTAUTH_SECRET=your-nextauth-secret
-      - NEXTAUTH_URL=http://localhost:3000
-    depends_on:
-      - shiptrack-db-prod
-    restart: unless-stopped
-    profiles:
-      - prod
-
-  # Development application
-  shiptrack-app-dev:
+  # Development application with hot reloading
+  shiptrack-app:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: shiptrack-app-dev
+    container_name: shiptrack-app
     ports:
       - "3001:3000"
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://shiptrack:shiptrack_password@shiptrack-db-dev:5432/shiptrack_dev
-      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-      - NEXTAUTH_SECRET=your-nextauth-secret
+      - DATABASE_URL=postgresql://shiptrack:shiptrack_password@shiptrack-db:5432/shiptrack_dev
+      - JWT_SECRET=914f6f8f9677e7c92cc2348a930545c491f0d039996a28c6afa0c8fea2ca9f139b14abdfed1d12b787fe79b3819c40f1b289a043331df2d9f8abe85b7bb85463
+      - NEXTAUTH_SECRET=shiptrack-dev-nextauth-secret-2024
       - NEXTAUTH_URL=http://localhost:3001
+      # Hot reloading environment variables
       - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+      - NEXT_TELEMETRY_DISABLED=1
+      # Additional file watching optimizations
+      - WEBPACK_USE_POLLING=true
+      - CHOKIDAR_INTERVAL=1000
     volumes:
+      # Source code volume for hot reloading
       - .:/app
+      # Exclude node_modules to use container's version
       - /app/node_modules
+      # Exclude .next to prevent conflicts
+      - /app/.next
+      # Exclude .git to improve performance
+      - /app/.git
     depends_on:
-      - shiptrack-db-dev
+      - shiptrack-db
     restart: unless-stopped
-    profiles:
-      - dev
+    # Enable interactive mode for better development experience
+    stdin_open: true
+    tty: true
 
 volumes:
-  postgres_prod_data:
-  postgres_dev_data:
+  postgres_data:
