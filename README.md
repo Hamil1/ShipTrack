@@ -41,11 +41,11 @@ This approach ensures that:
 
 - **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
 - **Backend**: Next.js API Routes, Prisma ORM
-- **Database**: PostgreSQL (development and production)
+- **Database**: PostgreSQL
 - **Authentication**: JWT with bcrypt password hashing
 - **Validation**: Zod schema validation
 - **Testing**: Jest (ready for implementation)
-- **Containerization**: Docker with multi-stage builds
+- **Containerization**: Docker
 - **Deployment**: Vercel (recommended) or Docker containers
 
 ## 📋 Prerequisites
@@ -80,6 +80,16 @@ Copy the example environment file and configure it for your setup:
 cp .env.example .env
 ```
 
+**Generate a Secure JWT Secret:**
+
+Before editing the `.env` file, generate a secure JWT secret:
+
+```bash
+node -e "console.log('JWT_SECRET=\"' + require('crypto').randomBytes(64).toString('hex') + '\"')"
+```
+
+Copy the output and use it as your `JWT_SECRET` value in the `.env` file.
+
 Then edit the `.env` file with your specific values. See `.env.example` for all available environment variables and their descriptions.
 
 **Important Notes**:
@@ -87,6 +97,7 @@ Then edit the `.env` file with your specific values. See `.env.example` for all 
 - If you're using Docker, the database URL will be automatically configured by the Docker Compose environment variables.
 - Carrier API keys are optional. The app will use mock data if APIs are not configured.
 - **USPS API**: Has geographic restrictions and may not be available outside the US.
+- **JWT_SECRET**: Must be a secure, random string. Never use the default placeholder value in production.
 
 #### 4. Set Up Database
 
@@ -119,21 +130,25 @@ git clone git@github.com:Hamil1/ShipTrack.git
 cd ShipTrack
 ```
 
-#### 2. Initialize Development Database
+#### 2. Configure JWT Secret
+
+Use the same JWT secret you generated in the earlier step for your Docker environment. Update the `JWT_SECRET` value in your `docker-compose.yml` file or `.env` file as needed.
+
+#### 3. Initialize Development Database
 
 ```bash
 # Initialize the development database
-./scripts/init-db.sh dev
+./scripts/init-db.sh
 ```
 
-#### 3. Run with Docker (Recommended)
+#### 4. Run with Docker (Recommended)
 
 ```bash
 # Using the convenience script
 ./scripts/docker-dev.sh
 
 # Or manually
-docker compose --profile dev up --build
+docker compose up --build
 ```
 
 Access the app at [http://localhost:3001](http://localhost:3001)
@@ -145,22 +160,22 @@ Access the database at localhost:5433
 
 ```bash
 # Initialize development database
-./scripts/init-db.sh dev
+./scripts/init-db.sh
 
 # Start development environment
-docker compose --profile dev up --build
+docker compose up --build
 
 # Start development environment (detached)
-docker compose --profile dev up --build -d
+docker compose up --build -d
 
 # View logs
-docker compose logs -f shiptrack-app-dev
+docker compose logs -f shiptrack-app
 
 # Stop development environment
-docker compose --profile dev down
+docker compose down
 
 # Stop development environment and remove orphaned containers
-docker compose --profile dev down --remove-orphans
+docker compose down --remove-orphans
 ```
 
 ## 📚 API Documentation
@@ -344,6 +359,38 @@ Authorization: Bearer <jwt_token>
 }
 ```
 
+#### GET /api/track/history
+
+Get all tracking history for the authenticated user (requires authentication).
+
+**Headers (required):**
+
+```
+Authorization: Bearer <jwt_token>
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "history_id",
+      "trackingNumber": "1Z999AA1234567890",
+      "carrier": "UPS",
+      "status": "In Transit",
+      "location": "Memphis, TN",
+      "timestamp": "2024-01-01T12:00:00.000Z",
+      "description": "Package in transit to next facility",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "message": "Tracking history retrieved successfully"
+}
+```
+
 #### GET /api/track/history/[trackingNumber]
 
 Get full tracking history for a specific tracking number (requires authentication).
@@ -468,14 +515,14 @@ This ensures that broken code cannot be committed to the repository.
 
 ## Todos:
 
-- [ ] What are the statuses for the tracking number?
-- [ ] Do we need the JWT secret in the .env file?
+- [x] What are the statuses for the tracking number?
+- [x] Do we need the JWT secret in the .env file? (Yes, and now properly documented with secure generation)
 - [x] Double check that these carriers are not in the app: 'DHL', 'Amazon', 'OnTrac' and remove any references to them in the app.
-- [ ] Are we specifying in the README that if we are not using docker we should hit the 3000 port and if we are using it we should hit the 3001 for the frontend?
-- [ ] Chec if we are using rate limit somewhere in the app and remove it.
-- [ ] Do we need a production database in the Docker Compose file?
-- [ ] Are the endpoints documentation in the README up to date?
-- [ ] Are we re-using components in the app by using the composition pattern?
-- [ ] Are the unit tests up to date?
-- [ ] Are we showing major carriers logos in the app?
-- [ ] Do we have the pipelining in the app to deploy to Vercel?
+- [x] Are we specifying in the README that if we are not using docker we should hit the 3000 port and if we are using it we should hit the 3001 for the frontend?
+- [x] Check if we are using rate limit somewhere in the app and remove it.
+- [x] Do we need a production database in the Docker Compose file?
+- [x] Are the endpoints documentation in the README up to date?
+- [x] Are we re-using components in the app by using the composition pattern? (Using props/callbacks pattern - composition could be improved)
+- [x] Are the unit tests up to date?
+- [x] Are we showing major carriers logos in the app?
+- [x] Do we have the pipelining in the app to deploy to Vercel?
