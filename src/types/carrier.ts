@@ -80,7 +80,7 @@ export type CarrierType = "UPS" | "FedEx" | "USPS";
 
 export interface CarrierRegistry {
   register(carrier: CarrierType, provider: CarrierProvider): void;
-  get(carrier: CarrierType): CarrierProvider | null;
+  get(carrier: CarrierType): Promise<CarrierProvider | null>;
   getAll(): Map<CarrierType, CarrierProvider>;
   isSupported(carrier: CarrierType): boolean;
   getSupportedCarriers(): CarrierType[];

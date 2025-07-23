@@ -3,20 +3,20 @@ export interface User {
   email: string;
   name: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
 }
 
 export interface TrackingHistory {
-  id: string;
+  id: number;
   trackingNumber: string;
   carrier: string;
   status: string;
-  location?: string;
+  location: string | null;
   timestamp: Date;
-  description?: string;
-  userId: string;
+  description: string | null;
+  userId: number;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
 }
 
 export interface TrackingInfo {
@@ -68,7 +68,7 @@ export interface TrackingStatus {
   description?: string;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
