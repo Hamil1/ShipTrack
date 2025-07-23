@@ -23,8 +23,6 @@ describe("Carrier Detection", () => {
       expect(detectCarrier("9405508106244021621495")).toBe("USPS");
     });
 
-
-
     it("should return null for invalid tracking numbers", () => {
       expect(detectCarrier("INVALID123")).toBeNull();
       expect(detectCarrier("")).toBeNull();
@@ -60,7 +58,7 @@ describe("Carrier Detection", () => {
     });
 
     it("should return null for invalid carriers", () => {
-      expect(getCarrierInfo("INVALID")).toBeNull();
+      expect(getCarrierInfo("INVALID" as any)).toBeNull();
     });
   });
 });
