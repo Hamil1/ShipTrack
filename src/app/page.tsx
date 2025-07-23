@@ -97,7 +97,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Track Your Packages (Hot Reload Test 7)
+              Track Your Packages
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8">
               Universal tracking for all major carriers
