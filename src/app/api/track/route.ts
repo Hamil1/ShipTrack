@@ -24,7 +24,7 @@ export async function POST(
         {
           success: false,
           error: "Validation failed",
-          message: validationResult.error.errors[0].message,
+          message: validationResult.error.issues[0].message,
         },
         { status: 400 }
       );
@@ -59,44 +59,59 @@ export async function POST(
 
     // Get user from authorization header (optional)
     const authHeader = request.headers.get("authorization");
-    const user = getUserFromHeader(authHeader);
+    let user = getUserFromHeader(authHeader);
 
-    // Basic rate limiting for non-authenticated users
-    if (!user) {
-      // In a real implementation, you'd check IP-based rate limiting here
-      // For now, we'll just proceed but note that authenticated users get better service
-    }
+    // Note: Authenticated users get enhanced features like tracking history
 
     // Call carrier API using the new tracking service
     const trackingInfo = await trackingService.track(trackingNumber);
 
     // Enhanced features for authenticated users
     if (user) {
-      // Save tracking history for authenticated users
-      await prisma.trackingHistory.create({
-        data: {
-          trackingNumber: trackingInfo.trackingNumber,
-          carrier: trackingInfo.carrier,
-          status: trackingInfo.status,
-          location: trackingInfo.location || null,
-          timestamp: trackingInfo.timestamp,
-          description: trackingInfo.description || null,
-          userId: user.id,
-        },
-      });
+      try {
+        // Verify user still exists in database before saving tracking history
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { id: true },
+        });
 
-      // Add user-specific enhancements to the response
-      return NextResponse.json({
-        success: true,
-        data: {
-          ...trackingInfo,
-          userFeatures: {
-            historySaved: true,
-            enhancedUpdates: true,
-          },
-        },
-        message: `Tracking information retrieved for ${carrier} (Enhanced features enabled)`,
-      });
+        if (dbUser) {
+          // Save tracking history for authenticated users
+          await prisma.trackingHistory.create({
+            data: {
+              trackingNumber: trackingInfo.trackingNumber,
+              carrier: trackingInfo.carrier,
+              status: trackingInfo.status,
+              location: trackingInfo.location || null,
+              timestamp: trackingInfo.timestamp,
+              description: trackingInfo.description || null,
+              userId: dbUser.id,
+            },
+          });
+
+          // Add user-specific enhancements to the response
+          return NextResponse.json({
+            success: true,
+            data: {
+              ...trackingInfo,
+              userFeatures: {
+                historySaved: true,
+                enhancedUpdates: true,
+              },
+            },
+            message: `Tracking information retrieved for ${carrier} (Enhanced features enabled)`,
+          });
+        } else {
+          // User doesn't exist in database, treat as unauthenticated
+          console.warn(
+            `User ${user.id} not found in database, treating as unauthenticated`
+          );
+          user = null;
+        }
+      } catch (error) {
+        console.error("Error saving tracking history:", error);
+        // Continue without saving history if there's an error
+      }
     }
 
     // Basic response for non-authenticated users

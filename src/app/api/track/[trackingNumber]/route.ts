@@ -98,13 +98,13 @@ export async function GET(
         const trackingInfo: TrackingInfo = {
           trackingNumber: cachedData.trackingNumber,
           carrier: cachedData.carrier,
-          status: cachedData.status,
+          status: cachedData.status as any,
           location: cachedData.location || undefined,
           timestamp: cachedData.timestamp,
           description: cachedData.description || undefined,
           events: [
             {
-              status: cachedData.status,
+              status: cachedData.status as any,
               location: cachedData.location || undefined,
               timestamp: cachedData.timestamp,
               description: cachedData.description || undefined,
