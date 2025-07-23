@@ -7,6 +7,7 @@ interface RegisterFormProps {
   onSwitchToLogin: () => void;
   isLoading?: boolean;
   error?: string | null;
+  errorDetails?: string | null;
 }
 
 export default function RegisterForm({
@@ -14,6 +15,7 @@ export default function RegisterForm({
   onSwitchToLogin,
   isLoading = false,
   error = null,
+  errorDetails = null,
 }: RegisterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +44,10 @@ export default function RegisterForm({
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-sm text-red-700">{error}</p>
+            <p className="text-sm font-medium text-red-700">{error}</p>
+            {errorDetails && (
+              <p className="text-xs text-red-600 mt-1">{errorDetails}</p>
+            )}
           </div>
         )}
 

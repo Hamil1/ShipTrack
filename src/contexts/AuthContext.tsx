@@ -22,12 +22,12 @@ interface AuthContextType {
   login: (
     email: string,
     password: string
-  ) => Promise<{ success: boolean; error?: string }>;
+  ) => Promise<{ success: boolean; error?: string; errorDetails?: string }>;
   register: (
     name: string,
     email: string,
     password: string
-  ) => Promise<{ success: boolean; error?: string }>;
+  ) => Promise<{ success: boolean; error?: string; errorDetails?: string }>;
   logout: () => void;
   validateSession: () => Promise<boolean>;
 }
@@ -206,11 +206,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("shiptrack_last_activity", Date.now().toString());
         return { success: true };
       } else {
-        return { success: false, error: data.message || "Login failed" };
+        return { 
+          success: false, 
+          error: data.message || "Login failed",
+          errorDetails: data.details || null
+        };
       }
     } catch (error) {
       console.error("Login error:", error);
-      return { success: false, error: "Network error. Please try again." };
+      return { 
+        success: false, 
+        error: "Network error. Please try again.",
+        errorDetails: "Unable to connect to the server"
+      };
     }
   };
 
@@ -234,11 +242,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("shiptrack_last_activity", Date.now().toString());
         return { success: true };
       } else {
-        return { success: false, error: data.message || "Registration failed" };
+        return { 
+          success: false, 
+          error: data.message || "Registration failed",
+          errorDetails: data.details || null
+        };
       }
     } catch (error) {
       console.error("Registration error:", error);
-      return { success: false, error: "Network error. Please try again." };
+      return { 
+        success: false, 
+        error: "Network error. Please try again.",
+        errorDetails: "Unable to connect to the server"
+      };
     }
   };
 

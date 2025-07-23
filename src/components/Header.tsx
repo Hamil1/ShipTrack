@@ -12,19 +12,23 @@ export default function Header() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authErrorDetails, setAuthErrorDetails] = useState<string | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const handleLogin = async (email: string, password: string) => {
     setIsAuthLoading(true);
     setAuthError(null);
+    setAuthErrorDetails(null);
 
     const result = await login(email, password);
 
     if (result.success) {
       setShowAuthModal(false);
       setAuthError(null);
+      setAuthErrorDetails(null);
     } else {
       setAuthError(result.error || "Login failed");
+      setAuthErrorDetails(result.errorDetails || null);
     }
 
     setIsAuthLoading(false);
@@ -37,14 +41,17 @@ export default function Header() {
   ) => {
     setIsAuthLoading(true);
     setAuthError(null);
+    setAuthErrorDetails(null);
 
     const result = await register(name, email, password);
 
     if (result.success) {
       setShowAuthModal(false);
       setAuthError(null);
+      setAuthErrorDetails(null);
     } else {
       setAuthError(result.error || "Registration failed");
+      setAuthErrorDetails(result.errorDetails || null);
     }
 
     setIsAuthLoading(false);
@@ -53,12 +60,14 @@ export default function Header() {
   const openAuthModal = (mode: "login" | "register") => {
     setAuthMode(mode);
     setAuthError(null);
+    setAuthErrorDetails(null);
     setShowAuthModal(true);
   };
 
   const closeAuthModal = () => {
     setShowAuthModal(false);
     setAuthError(null);
+    setAuthErrorDetails(null);
   };
 
   return (
@@ -158,6 +167,7 @@ export default function Header() {
                 onSwitchToRegister={() => setAuthMode("register")}
                 isLoading={isAuthLoading}
                 error={authError}
+                errorDetails={authErrorDetails}
               />
             ) : (
               <RegisterForm
@@ -165,6 +175,7 @@ export default function Header() {
                 onSwitchToLogin={() => setAuthMode("login")}
                 isLoading={isAuthLoading}
                 error={authError}
+                errorDetails={authErrorDetails}
               />
             )}
           </div>
