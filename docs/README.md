@@ -12,11 +12,14 @@ Step-by-step instructions for adding new carrier integrations to ShipTrack.
 
 Comprehensive guide for resolving USPS API issues, including geographic restrictions and authentication problems.
 
+### [Tracking Statuses](./TRACKING_STATUSES.md)
+
+A list of all the tracking statuses that we support.
+
 ## 🔗 Quick Links
 
 - [Main Project README](../README.md) - Project overview and setup instructions
 - [API Documentation](../README.md#-api-documentation) - Complete API reference
-- [Deployment Guide](../README.md#-deployment-options) - Production deployment instructions
 
 ## 📝 Contributing to Documentation
 
