@@ -26,10 +26,6 @@ export interface CarrierConfig {
   pattern: RegExp;
   apiEndpoint?: string;
   authType: "none" | "bearer" | "oauth" | "api_key" | "basic";
-  rateLimit?: {
-    requestsPerMinute: number;
-    requestsPerHour: number;
-  };
   timeout?: number;
   retries?: number;
   endpoints?: {
@@ -80,14 +76,13 @@ export interface CarrierProvider {
   getMockData(trackingNumber: string): TrackingInfo | null;
 }
 
-export type CarrierType =
-  | "UPS"
-  | "FedEx"
-  | "USPS";
+export type CarrierType = "UPS" | "FedEx" | "USPS";
 
 export interface CarrierRegistry {
   register(carrier: CarrierType, provider: CarrierProvider): void;
   get(carrier: CarrierType): CarrierProvider | null;
   getAll(): Map<CarrierType, CarrierProvider>;
   isSupported(carrier: CarrierType): boolean;
+  getSupportedCarriers(): CarrierType[];
+  getConfig(carrier: CarrierType): any;
 }

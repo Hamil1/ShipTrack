@@ -12,16 +12,41 @@ import { BaseCarrierProvider } from "@/providers/BaseCarrierProvider";
 export class CarrierRegistryService implements CarrierRegistry {
   private providers = new Map<CarrierType, CarrierProvider>();
   private configs = new Map<CarrierType, any>();
+  private initialized = false;
+  private initializing = false;
 
   constructor() {
-    this.initialize();
+    // Don't initialize immediately in constructor
+    // Let it be initialized on first use
   }
 
   private async initialize() {
-    console.log("🚀 Initializing CarrierRegistry...");
-    await this.loadConfigurations();
-    await this.initializeProviders();
-    console.log("✅ CarrierRegistry initialization complete");
+    if (this.initialized) {
+      return;
+    }
+
+    if (this.initializing) {
+      // Wait for the ongoing initialization to complete
+      while (this.initializing) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      return;
+    }
+
+    this.initializing = true;
+
+    try {
+      console.log("🚀 Initializing CarrierRegistry...");
+      await this.loadConfigurations();
+      await this.initializeProviders();
+      this.initialized = true;
+      console.log("✅ CarrierRegistry initialization complete");
+    } catch (error) {
+      console.error("❌ CarrierRegistry initialization failed:", error);
+      throw error;
+    } finally {
+      this.initializing = false;
+    }
   }
 
   /**
@@ -54,6 +79,7 @@ export class CarrierRegistryService implements CarrierRegistry {
    */
   private async initializeProviders() {
     console.log("🔧 Initializing carrier providers...");
+
     // Initialize FedEx provider
     const fedexConfig = this.configs.get("FedEx");
     console.log("  - FedEx config found:", !!fedexConfig);
@@ -61,28 +87,49 @@ export class CarrierRegistryService implements CarrierRegistry {
     console.log("  - FEDEX_CLIENT_SECRET:", !!process.env.FEDEX_CLIENT_SECRET);
 
     if (fedexConfig) {
-      const fedexProvider = new FedExProvider(
-        {
-          name: fedexConfig.name,
-          pattern: new RegExp(fedexConfig.pattern),
-          apiEndpoint: fedexConfig.apiEndpoint,
-          authType: fedexConfig.authType,
-          rateLimit: fedexConfig.rateLimit,
-          timeout: fedexConfig.timeout,
-          retries: fedexConfig.retries,
-          endpoints: fedexConfig.endpoints,
-          mockData: fedexConfig.mockData,
-          statusMapping: fedexConfig.statusMapping,
-        },
-        {
-          clientId: process.env.FEDEX_CLIENT_ID,
-          clientSecret: process.env.FEDEX_CLIENT_SECRET,
-        }
-      );
+      try {
+        const fedexProvider = new FedExProvider(
+          {
+            name: fedexConfig.name,
+            pattern: new RegExp(fedexConfig.pattern),
+            apiEndpoint: fedexConfig.apiEndpoint,
+            authType: fedexConfig.authType,
+            timeout: fedexConfig.timeout,
+            retries: fedexConfig.retries,
+            endpoints: fedexConfig.endpoints,
+            mockData: fedexConfig.mockData,
+            statusMapping: fedexConfig.statusMapping,
+          },
+          {
+            clientId: process.env.FEDEX_CLIENT_ID,
+            clientSecret: process.env.FEDEX_CLIENT_SECRET,
+          }
+        );
 
-      await fedexProvider.initialize();
-      this.register("FedEx", fedexProvider);
-      console.log("  ✅ FedEx provider registered successfully");
+        await fedexProvider.initialize();
+        this.register("FedEx", fedexProvider);
+        console.log("  ✅ FedEx provider registered successfully");
+      } catch (error) {
+        console.log("  ❌ FedEx provider initialization failed:", error);
+        console.log(
+          "  ℹ️  FedEx will use mock data when credentials are not available"
+        );
+
+        // Create a mock FedEx provider for when credentials are not available
+        const mockFedExProvider = new MockCarrierProvider(
+          {
+            name: fedexConfig.name,
+            pattern: new RegExp(fedexConfig.pattern),
+            authType: "none",
+            mockData: fedexConfig.mockData,
+            statusMapping: fedexConfig.statusMapping,
+          },
+          {}
+        );
+
+        this.register("FedEx", mockFedExProvider);
+        console.log("  ✅ Mock FedEx provider registered as fallback");
+      }
     }
 
     // Initialize USPS provider
@@ -94,27 +141,48 @@ export class CarrierRegistryService implements CarrierRegistry {
     );
 
     if (uspsConfig) {
-      const uspsProvider = new USPSProvider(
-        {
-          name: uspsConfig.name,
-          pattern: new RegExp(uspsConfig.pattern),
-          apiEndpoint: uspsConfig.apiEndpoint,
-          authType: uspsConfig.authType,
-          rateLimit: uspsConfig.rateLimit,
-          timeout: uspsConfig.timeout,
-          retries: uspsConfig.retries,
-          endpoints: uspsConfig.endpoints,
-          mockData: uspsConfig.mockData,
-          statusMapping: uspsConfig.statusMapping,
-        },
-        {
-          userId: process.env.USPS_WEB_TOOLS_USER_ID,
-        }
-      );
+      try {
+        const uspsProvider = new USPSProvider(
+          {
+            name: uspsConfig.name,
+            pattern: new RegExp(uspsConfig.pattern),
+            apiEndpoint: uspsConfig.apiEndpoint,
+            authType: uspsConfig.authType,
+            timeout: uspsConfig.timeout,
+            retries: uspsConfig.retries,
+            endpoints: uspsConfig.endpoints,
+            mockData: uspsConfig.mockData,
+            statusMapping: uspsConfig.statusMapping,
+          },
+          {
+            userId: process.env.USPS_WEB_TOOLS_USER_ID,
+          }
+        );
 
-      await uspsProvider.initialize();
-      this.register("USPS", uspsProvider);
-      console.log("  ✅ USPS provider registered successfully");
+        await uspsProvider.initialize();
+        this.register("USPS", uspsProvider);
+        console.log("  ✅ USPS provider registered successfully");
+      } catch (error) {
+        console.log("  ❌ USPS provider initialization failed:", error);
+        console.log(
+          "  ℹ️  USPS will use mock data when credentials are not available"
+        );
+
+        // Create a mock USPS provider for when credentials are not available
+        const mockUSPSProvider = new MockCarrierProvider(
+          {
+            name: uspsConfig.name,
+            pattern: new RegExp(uspsConfig.pattern),
+            authType: "none",
+            mockData: uspsConfig.mockData,
+            statusMapping: uspsConfig.statusMapping,
+          },
+          {}
+        );
+
+        this.register("USPS", mockUSPSProvider);
+        console.log("  ✅ Mock USPS provider registered as fallback");
+      }
     }
 
     // Initialize UPS provider
@@ -131,7 +199,6 @@ export class CarrierRegistryService implements CarrierRegistry {
             pattern: new RegExp(upsConfig.pattern),
             apiEndpoint: upsConfig.apiEndpoint,
             authType: upsConfig.authType,
-            rateLimit: upsConfig.rateLimit,
             timeout: upsConfig.timeout,
             retries: upsConfig.retries,
             endpoints: upsConfig.endpoints,
@@ -206,7 +273,7 @@ export class CarrierRegistryService implements CarrierRegistry {
       UPS: /^1Z[0-9A-Z]{15,16}$/i,
       FedEx: /^[0-9]{12,14}$/,
       USPS: /^(9[0-9]{3})[0-9]{15,18}$/,
-      
+
       CanadaPost: /^[0-9]{16}$/,
       RoyalMail: /^[A-Z]{2}[0-9]{9}GB$/i,
     };
@@ -225,7 +292,11 @@ export class CarrierRegistryService implements CarrierRegistry {
   /**
    * Get a carrier provider
    */
-  get(carrier: CarrierType): CarrierProvider | null {
+  async get(carrier: CarrierType): Promise<CarrierProvider | null> {
+    // Ensure initialization on first use
+    if (!this.initialized) {
+      await this.initialize();
+    }
     return this.providers.get(carrier) || null;
   }
 
@@ -233,6 +304,11 @@ export class CarrierRegistryService implements CarrierRegistry {
    * Get all registered providers
    */
   getAll(): Map<CarrierType, CarrierProvider> {
+    // Ensure initialization on first use
+    if (!this.initialized) {
+      this.initialize().catch(console.error);
+      return new Map();
+    }
     return new Map(this.providers);
   }
 

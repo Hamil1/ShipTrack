@@ -20,7 +20,7 @@ export class TrackingService {
     console.log(`  - Detected carrier: ${carrier}`);
 
     // Get carrier provider
-    const provider = carrierRegistry.get(carrier);
+    const provider = await carrierRegistry.get(carrier);
     if (!provider) {
       console.log(`  - Provider not found for carrier: ${carrier}`);
       console.log(
@@ -98,8 +98,8 @@ export class TrackingService {
   /**
    * Get carrier provider information
    */
-  getCarrierInfo(carrier: CarrierType) {
-    const provider = carrierRegistry.get(carrier);
+  async getCarrierInfo(carrier: CarrierType) {
+    const provider = await carrierRegistry.get(carrier);
     if (!provider) return null;
 
     return {

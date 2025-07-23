@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  id: number;
   email: string;
   name: string;
   createdAt: Date;
@@ -22,7 +22,13 @@ export interface TrackingHistory {
 export interface TrackingInfo {
   trackingNumber: string;
   carrier: string;
-  status: "In Transit" | "Out for Delivery" | "Delivered" | "Exception" | "Pending" | "Unknown";
+  status:
+    | "In Transit"
+    | "Out for Delivery"
+    | "Delivered"
+    | "Exception"
+    | "Pending"
+    | "Unknown";
   location?: string;
   timestamp: Date;
   description?: string;
@@ -42,10 +48,7 @@ export interface CarrierInfo {
   apiEndpoint?: string;
 }
 
-export type CarrierType =
-  | "UPS"
-  | "FedEx"
-  | "USPS";
+export type CarrierType = "UPS" | "FedEx" | "USPS";
 
 export interface AuthResponse {
   user: User;
@@ -53,7 +56,13 @@ export interface AuthResponse {
 }
 
 export interface TrackingStatus {
-  status: "In Transit" | "Out for Delivery" | "Delivered" | "Exception" | "Pending" | "Unknown";
+  status:
+    | "In Transit"
+    | "Out for Delivery"
+    | "Delivered"
+    | "Exception"
+    | "Pending"
+    | "Unknown";
   location?: string;
   timestamp: Date;
   description?: string;

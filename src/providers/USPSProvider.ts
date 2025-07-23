@@ -36,7 +36,7 @@ export class USPSProvider extends BaseCarrierProvider {
         }
         if (response.status === 429) {
           throw new Error(
-            "USPS API rate limit exceeded. Please try again later."
+            "USPS API temporarily unavailable. Please try again later."
           );
         }
         throw new Error(`USPS API error: ${response.statusText}`);
