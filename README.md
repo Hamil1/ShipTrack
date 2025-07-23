@@ -588,6 +588,13 @@ This ensures that broken code cannot be committed to the repository.
 
 **Note**: This is a technical assessment project. For production use, additional security measures, error handling, and carrier API integrations would be required.
 
+
+# How to test the app:
+<img width="1442" height="970" alt="image" src="https://github.com/user-attachments/assets/4325d9f3-fb5c-4710-9403-de913e20cc14" />
+<img width="1351" height="969" alt="image" src="https://github.com/user-attachments/assets/f0926a88-1c49-41d4-bb8d-3e39dec402b4" />
+<img width="1576" height="1075" alt="image" src="https://github.com/user-attachments/assets/aa5f9e3c-5095-4492-b332-3f059c0ef561" />
+<img width="1576" height="982" alt="image" src="https://github.com/user-attachments/assets/b21318c1-b21a-4b05-bd72-051d0c3ebd27" />
+
 ## Todos:
 
 - [x] What are the statuses for the tracking number?
