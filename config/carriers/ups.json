@@ -3,10 +3,6 @@
   "pattern": "^1Z[0-9A-Z]{15,16}$",
   "apiEndpoint": "https://onlinetools.ups.com",
   "authType": "oauth",
-  "rateLimit": {
-    "requestsPerMinute": 100,
-    "requestsPerHour": 1000
-  },
   "timeout": 15000,
   "retries": 3,
   "endpoints": {

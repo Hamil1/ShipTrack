@@ -3,10 +3,6 @@
   "pattern": "^(9[0-9]{3})[0-9]{15,18}$",
   "apiEndpoint": "http://production.shippingapis.com",
   "authType": "none",
-  "rateLimit": {
-    "requestsPerMinute": 1000,
-    "requestsPerHour": 10000
-  },
   "timeout": 15000,
   "retries": 2,
   "endpoints": {

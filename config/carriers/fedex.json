@@ -3,10 +3,6 @@
   "pattern": "^[0-9]{12,14}$",
   "apiEndpoint": "https://apis-sandbox.fedex.com",
   "authType": "oauth",
-  "rateLimit": {
-    "requestsPerMinute": 100,
-    "requestsPerHour": 1000
-  },
   "timeout": 10000,
   "retries": 3,
   "endpoints": {
