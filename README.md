@@ -594,17 +594,3 @@ This ensures that broken code cannot be committed to the repository.
 <img width="1351" height="969" alt="image" src="https://github.com/user-attachments/assets/f0926a88-1c49-41d4-bb8d-3e39dec402b4" />
 <img width="1576" height="1075" alt="image" src="https://github.com/user-attachments/assets/aa5f9e3c-5095-4492-b332-3f059c0ef561" />
 <img width="1576" height="982" alt="image" src="https://github.com/user-attachments/assets/b21318c1-b21a-4b05-bd72-051d0c3ebd27" />
-
-## Todos:
-
-- [x] What are the statuses for the tracking number?
-- [x] Do we need the JWT secret in the .env file? (Yes, and now properly documented with secure generation)
-- [x] Double check that these carriers are not in the app: 'DHL', 'Amazon', 'OnTrac' and remove any references to them in the app.
-- [x] Are we specifying in the README that if we are not using docker we should hit the 3000 port and if we are using it we should hit the 3001 for the frontend?
-- [x] Check if we are using rate limit somewhere in the app and remove it.
-- [x] Do we need a production database in the Docker Compose file?
-- [x] Are the endpoints documentation in the README up to date?
-- [x] Are we re-using components in the app by using the composition pattern? (Using props/callbacks pattern - composition could be improved)
-- [x] Are the unit tests up to date?
-- [x] Are we showing major carriers logos in the app?
-- [x] Do we have the pipelining in the app to deploy to Vercel?
