@@ -179,10 +179,7 @@ export async function POST(
         success: false,
         error: "Internal server error",
         message: "An error occurred during registration",
-        details:
-          process.env.NODE_ENV === "development"
-            ? (error as any)?.message
-            : "Please try again later",
+        details: (error as any)?.message || "Unknown error occurred",
       },
       { status: 500 }
     );
