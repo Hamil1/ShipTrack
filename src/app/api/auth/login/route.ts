@@ -60,14 +60,16 @@ export async function POST(
       );
     }
 
-    // Generate JWT token
-    const token = generateToken({
+    // Generate JWT token with proper user object
+    const userForToken = {
       id: user.id,
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-    });
+    };
+
+    const token = generateToken(userForToken);
 
     return NextResponse.json({
       success: true,
