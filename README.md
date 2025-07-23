@@ -413,35 +413,110 @@ Authorization: Bearer <jwt_token>
 
 ```
 ShipTrack/
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── auth/
+├── .github/                          # GitHub Actions workflows
+│   └── workflows/
+│       └── deploy.yml
+├── .husky/                           # Git hooks configuration
+├── config/                           # Carrier configuration files
+│   └── carriers/
+│       ├── fedex.json
+│       ├── ups.json
+│       └── usps.json
+├── docs/                             # Documentation
+│   ├── CARRIER_ONBOARDING_README.md
+│   ├── DEPLOYMENT.md
+│   ├── README.md
+│   ├── TRACKING_STATUSES.md
+│   └── USPS_API_TROUBLESHOOTING.md
+├── prisma/                           # Database schema and migrations
+│   └── schema.prisma
+├── public/                           # Static assets
+│   ├── carriers/                     # Carrier logo SVGs
+│   │   ├── fedex.svg
+│   │   ├── ups.svg
+│   │   └── usps.svg
+│   ├── favicon.ico
+│   └── ...
+├── scripts/                          # Development and deployment scripts
+│   ├── cleanup.sh
+│   ├── docker-dev-hot-reload.sh
+│   ├── docker-dev.sh
+│   ├── docker-prod.sh
+│   └── init-db.sh
+├── src/                              # Application source code
+│   ├── app/                          # Next.js App Router
+│   │   ├── api/                      # API routes
+│   │   │   ├── auth/                 # Authentication endpoints
 │   │   │   │   ├── login/
-│   │   │   │   └── register/
-│   │   │   └── track/
+│   │   │   │   ├── register/
+│   │   │   │   └── validate/
+│   │   │   └── track/                # Tracking endpoints
 │   │   │       ├── [trackingNumber]/
 │   │   │       └── history/
+│   │   │           └── [trackingNumber]/
+│   │   ├── favicon.ico
 │   │   ├── globals.css
 │   │   ├── layout.tsx
 │   │   └── page.tsx
-│   ├── components/
+│   ├── components/                   # React components
+│   │   ├── common/                   # Reusable UI components
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   ├── CarrierBadge.tsx
+│   │   │   ├── ErrorDisplay.tsx
+│   │   │   ├── Input.tsx
+│   │   │   └── index.ts
+│   │   ├── AuthPrompt.tsx
+│   │   ├── Header.tsx
+│   │   ├── LoginForm.tsx
+│   │   ├── RegisterForm.tsx
 │   │   ├── TrackingForm.tsx
-│   │   └── TrackingResult.tsx
-│   ├── lib/
+│   │   ├── TrackingHistory.tsx
+│   │   ├── TrackingResult.tsx
+│   │   └── UserMenu.tsx
+│   ├── contexts/                     # React contexts
+│   │   └── AuthContext.tsx
+│   ├── lib/                          # Library configurations
 │   │   └── prisma.ts
-│   ├── types/
+│   ├── providers/                    # Carrier API providers
+│   │   ├── BaseCarrierProvider.ts
+│   │   ├── FedExProvider.ts
+│   │   ├── UPSProvider.ts
+│   │   └── USPSProvider.ts
+│   ├── services/                     # Business logic services
+│   │   ├── CarrierRegistry.ts
+│   │   └── TrackingService.ts
+│   ├── types/                        # TypeScript type definitions
+│   │   ├── carrier.ts
 │   │   └── index.ts
-│   └── utils/
+│   └── utils/                        # Utility functions
+│       ├── __tests__/                # Test files
+│       │   ├── auth.test.ts
+│       │   ├── carrierDetection.test.ts
+│       │   └── trackingService.test.ts
 │       ├── auth.ts
 │       ├── carrierDetection.ts
+│       ├── carrierDetection.test.ts
+│       ├── carrierLogos.ts
 │       └── trackingService.ts
-├── prisma/
-│   └── schema.prisma
-├── public/
-├── .env
-├── package.json
-└── README.md
+├── .dockerignore
+├── .env                              # Environment variables
+├── .env.example                      # Environment variables template
+├── .gitignore
+├── docker-compose.yml                # Docker Compose configuration
+├── Dockerfile                        # Production Dockerfile
+├── Dockerfile.dev                    # Development Dockerfile
+├── eslint.config.mjs                 # ESLint configuration
+├── jest.config.js                    # Jest test configuration
+├── jest.setup.js                     # Jest setup file
+├── next-env.d.ts                     # Next.js TypeScript definitions
+├── next.config.ts                    # Next.js configuration
+├── package.json                      # Node.js dependencies and scripts
+├── postcss.config.mjs                # PostCSS configuration
+├── README.md                         # Project documentation
+├── tsconfig.json                     # TypeScript configuration
+├── tsconfig.tsbuildinfo              # TypeScript build info
+└── vercel.json                       # Vercel deployment configuration
 ```
 
 ## 🧪 Testing
