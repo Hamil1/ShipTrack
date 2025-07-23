@@ -2,9 +2,17 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "@/types";
 
-const JWT_SECRET =
-  process.env.JWT_SECRET ||
-  "your-super-secret-jwt-key-change-this-in-production";
+// Get JWT_SECRET with fallback for development
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.warn("JWT_SECRET not found in environment variables. Using default for development.");
+    return "your-super-secret-jwt-key-change-this-in-production";
+  }
+  return secret;
+}
+
+const JWT_SECRET = getJwtSecret();
 
 /**
  * Hash a password using bcrypt
@@ -41,7 +49,7 @@ export function generateToken(user: User): string {
     name: user.name,
   };
 
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
+  return jwt.sign(payload, JWT_SECRET!, { expiresIn: "7d" });
 }
 
 /**
@@ -51,7 +59,7 @@ export function generateToken(user: User): string {
  */
 export function verifyToken(token: string): any {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET!);
   } catch (error) {
     return null;
   }
