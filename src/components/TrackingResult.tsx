@@ -1,6 +1,8 @@
 "use client";
 
 import { TrackingInfo } from "@/types";
+import { getCarrierLogo, getCarrierDisplayName } from "@/utils/carrierLogos";
+import Image from "next/image";
 
 interface TrackingResultProps {
   trackingInfo: TrackingInfo;
@@ -45,9 +47,17 @@ export default function TrackingResult({ trackingInfo }: TrackingResultProps) {
             </p>
           </div>
           <div className="text-right">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white">
-              {trackingInfo.carrier}
-            </span>
+            <div className="flex items-center space-x-2">
+              <Image
+                src={getCarrierLogo(trackingInfo.carrier as any)}
+                alt={`${getCarrierDisplayName(
+                  trackingInfo.carrier as any
+                )} logo`}
+                width={60}
+                height={20}
+                className="rounded"
+              />
+            </div>
           </div>
         </div>
       </div>
